@@ -74,3 +74,10 @@ def read_ranges(*, sheet_id: str, ranges: List[str]) -> List[Dict[str, Any]]:
             }
         )
     return out
+
+
+def read_publer_config(*, sheet_id: str) -> Dict[str, str]:
+    """
+    Convenience wrapper: loads the Publer Config tab into a dict.
+    """
+    return read_key_value_tab(sheet_id=sheet_id, tab_name="Publer Config")
