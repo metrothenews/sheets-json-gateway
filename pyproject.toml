@@ -1,0 +1,13 @@
+[project]
+name = "publer-worker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "google-api-python-client>=2.189.0",
+    "google-auth>=2.48.0",
+    "google-auth-httplib2>=0.3.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.12.5",
+]
