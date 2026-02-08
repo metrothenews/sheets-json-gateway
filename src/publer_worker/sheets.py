@@ -39,10 +39,10 @@ def read_key_value_tab(*, sheet_id: str, tab_name: str) -> Dict[str, str]:
     return out
 
 
-def write_cells(*, sheet_id: str, updates: List[Dict[str, Any]]) -> None:
+def write_cells(*, sheet_id: str, updates: List[Dict[str, Any]]) -> Dict[str, Any]:
     service = _svc()
     body = {"valueInputOption": "RAW", "data": updates}
-    service.spreadsheets().values().batchUpdate(
+    return service.spreadsheets().values().batchUpdate(
         spreadsheetId=sheet_id,
         body=body
     ).execute()
