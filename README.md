@@ -76,7 +76,7 @@ Response:
 uv sync
 GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/application_default_credentials.json" \
 SHEETS_ALLOWLIST="<SHEET_ID>" \
-uv run uvicorn publer_worker.app:app --host 0.0.0.0 --port 8080
+uv run uvicorn sheets_json_gateway.app:app --host 0.0.0.0 --port 8080
 
 ## Deploy (Cloud Run)
 

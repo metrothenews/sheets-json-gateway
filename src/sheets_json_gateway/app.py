@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from publer_worker.sheets import read_ranges, read_key_value_tab, write_cells
+from sheets_json_gateway.sheets import read_ranges, read_key_value_tab, write_cells
 
 app = FastAPI(title="Sheets JSON Interface", version="1.0")
 

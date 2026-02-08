@@ -1,5 +1,5 @@
 import os
-from publer_worker.sheets import read_key_value_tab
+from sheets_json_gateway.sheets import read_key_value_tab
 
 def main():
     sheet_id = os.environ["GOOGLE_SHEET_ID"]
