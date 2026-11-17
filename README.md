@@ -1,6 +1,6 @@
 # sheets-json-gateway
 
-**A small HTTP "database adapter" that lets services and agents read and write Google Sheets as JSON.**
+**Shared production tracking for people and automation: a small, secured JSON API over the spreadsheets a team already runs its work in.**
 
 Several of my automation projects use Google Sheets as their control plane, because producers and content teams already live in spreadsheets. Instead of each service carrying its own Google credentials and Sheets client, they all call this gateway over HTTP. It's deployed on Cloud Run, so it's the one place that holds Sheets access, enforces an allowlist, and redacts sensitive values.
 
