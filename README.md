@@ -14,6 +14,14 @@ Used by [sf-production-app](https://github.com/metrothenews/sf-production-app) (
 
 **Stack:** Python 3.12 · FastAPI · google-api-python-client · uv · Google Cloud Run
 
+## Applications at scale
+
+- **Spreadsheets as shared state for people and AI agents.** Most business processes already live in a spreadsheet. A narrow JSON API over it is exactly what LLM function calling needs: `read`, `read_kv` and `write` map directly onto tool definitions, so an agent can work in the same sheet as the team, with every change visible and reversible by a person.
+- **Least privilege for agents.** The agent never holds Google credentials. The gateway decides which sheets exist for it (allowlist), what it may see (redaction) and whether it may call at all (API key or IAM). That's the guardrail pattern for giving models access to real business data.
+- **A zero-migration backend.** Teams can automate a workflow without moving off the tool they already use, which is how internal automation actually gets adopted.
+
+**What it demonstrates:** API and security design, secrets-free cloud auth, service decomposition, small well-tested surface area.
+
 ## Security
 
 | Setting | Effect |
