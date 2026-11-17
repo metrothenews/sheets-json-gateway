@@ -1,7 +1,7 @@
 [project]
 name = "publer-worker"
 version = "0.1.0"
-description = "Add your description here"
+description = "HTTP JSON gateway for reading and writing Google Sheets (Cloud Run)."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

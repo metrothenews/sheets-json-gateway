@@ -1,14 +1,28 @@
 from __future__ import annotations
 
+import hmac
 import os
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
 
 from sheets_json_gateway.sheets import read_ranges, read_key_value_tab, write_cells
 
 app = FastAPI(title="Sheets JSON Interface", version="1.0")
+
+
+def require_api_key(x_api_key: Optional[str] = Header(default=None)) -> None:
+    """Require a shared key on /v1 routes when GATEWAY_API_KEY is set.
+
+    Opt-in so existing deployments keep working; set GATEWAY_API_KEY (ideally from
+    Secret Manager) on any deployment that is reachable without Cloud Run IAM.
+    """
+    expected = os.environ.get("GATEWAY_API_KEY", "").strip()
+    if not expected:
+        return
+    if not x_api_key or not hmac.compare_digest(x_api_key, expected):
+        raise HTTPException(status_code=401, detail="missing or invalid X-API-Key")
 
 
 def _allowlisted(sheet_id: str) -> bool:
@@ -79,7 +93,7 @@ def healthz() -> Dict[str, Any]:
     return {"ok": True}
 
 
-@app.post("/v1/read")
+@app.post("/v1/read", dependencies=[Depends(require_api_key)])
 def v1_read(req: ReadRequest) -> Dict[str, Any]:
     if not _allowlisted(req.sheet_id):
         raise HTTPException(status_code=403, detail="sheet_id not allowlisted")
@@ -91,7 +105,7 @@ def v1_read(req: ReadRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/v1/read_kv")
+@app.post("/v1/read_kv", dependencies=[Depends(require_api_key)])
 def v1_read_kv(req: ReadKVRequest) -> Dict[str, Any]:
     if not _allowlisted(req.sheet_id):
         raise HTTPException(status_code=403, detail="sheet_id not allowlisted")
@@ -103,7 +117,7 @@ def v1_read_kv(req: ReadKVRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/v1/write")
+@app.post("/v1/write", dependencies=[Depends(require_api_key)])
 def v1_write(req: WriteRequest) -> Dict[str, Any]:
     if not _allowlisted(req.sheet_id):
         raise HTTPException(status_code=403, detail="sheet_id not allowlisted")
